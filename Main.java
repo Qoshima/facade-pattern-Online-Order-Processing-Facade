@@ -1,6 +1,14 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Main {
     public static void main(String[] args) {
         OrderFacade facade = new OrderFacade();
-        facade.placeOrder();
+
+        Customer customer = new Customer("C001", "john@gmail.com", "Astana");
+
+        List<CartItem> cartItems = List.of(new CartItem("MacBook", 1, 2700), new CartItem("Lenovo Loq", 2, 600));
+
+        facade.placeOrder(cartItems, customer);
     }
 }
