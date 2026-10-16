@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class OrderFacade {
@@ -7,9 +8,23 @@ public class OrderFacade {
     private NotificationService notification = new NotificationService();
 
     public void placeOrder(List<CartItem> cartItems, Customer customer) {
+        List<CartItem> reserved = new ArrayList<>();
+
+        for (CartItem item : cartItems) {
+            if (!inventory.reserveStock(item.getProductId(), item.getQuantity())) {
+                System.out.println("Not enough stock!");
+
+                for (CartItem r : reserved) {
+                    inventory.releaseStock(r.getProductId(), r.getQuantity());
+                }
+                return;
+            }
+
+            reserved.add(item);
+        }
+
         System.out.println("Customer: " + customer.getId());
         System.out.println("Items in cart: " + cartItems.size());
-        inventory.reserveStock();
         payment.processPayment();
         shipping.shipOrder();
         notification.sendConfirmation();
