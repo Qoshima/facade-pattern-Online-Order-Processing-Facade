@@ -33,5 +33,6 @@ public class InventoryService {
         if (productId.equals("MacBook")) {
             macbooks += quantity;
         }
+        System.out.println("Released " + quantity + " " + productId);
     }
 }

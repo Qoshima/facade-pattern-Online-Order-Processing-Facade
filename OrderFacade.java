@@ -25,7 +25,18 @@ public class OrderFacade {
 
         System.out.println("Customer: " + customer.getId());
         System.out.println("Items in cart: " + cartItems.size());
-        payment.processPayment();
+
+        double total = 0;
+        for (CartItem item : cartItems) {
+            total += item.getPrice() * item.getQuantity();
+        }
+        if (!payment.processPayment(total)) {
+            for (CartItem item : reserved) {
+                inventory.releaseStock(item.getProductId(), item.getQuantity());
+            }
+            return;
+        }
+
         shipping.shipOrder();
         notification.sendConfirmation();
     }
