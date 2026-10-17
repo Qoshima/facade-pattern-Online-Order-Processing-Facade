@@ -16,4 +16,8 @@ public class PaymentProcessor {
         balance += amount;
         System.out.println("Payment refunded: " + amount);
     }
+
+    public double getBalance() {
+        return balance;
+    }
 }

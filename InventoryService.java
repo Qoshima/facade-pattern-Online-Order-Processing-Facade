@@ -35,4 +35,14 @@ public class InventoryService {
         }
         System.out.println("Released " + quantity + " " + productId);
     }
+
+    public int getStock(String productId) {
+        if (productId.equals("Lenovo Loq")) {
+            return lenovos;
+        }
+        if (productId.equals("MacBook")) {
+            return macbooks;
+        }
+        return 0;
+    }
 }

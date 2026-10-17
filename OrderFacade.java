@@ -100,4 +100,10 @@ public class OrderFacade {
         System.out.println("Order cancelled!");
         return true;
     }
+
+    public void showStatus(){
+        System.out.println("Balance: " + payment.getBalance());
+        System.out.println("MacBook: " + inventory.getStock("MacBook"));
+        System.out.println("Lenovo Loq: "+inventory.getStock("Lenovo Loq"));
+    }
 }
