@@ -20,7 +20,7 @@ public class OrderFacade {
         }
 
         for (CartItem cartItem : cartItems) {
-            if (cartItem == null || cartItem.getQuantity() <= 0 || cartItem.getPrice() <= 0) {
+            if (cartItem == null || cartItem.getQuantity() <= 0 || cartItem.getPrice() <= 0 || !Double.isFinite(cartItem.getPrice())) {
                 System.out.println("Invalid item");
                 return null;
             }
