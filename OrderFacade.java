@@ -7,7 +7,18 @@ public class OrderFacade {
     private ShippingService shipping = new ShippingService();
     private NotificationService notification = new NotificationService();
 
-    public void placeOrder(List<CartItem> cartItems, Customer customer) {
+    private String currentOrderId;
+    private List<CartItem> savedCart;
+    private Customer savedCustomer;
+    private double savedTotal;
+    private int nextId = 1;
+
+    public String placeOrder(List<CartItem> cartItems, Customer customer) {
+        if (currentOrderId != null) {
+            System.out.println("An active order already exists!");
+            return null;
+        }
+
         List<CartItem> reserved = new ArrayList<>();
 
         for (CartItem item : cartItems) {
@@ -17,7 +28,7 @@ public class OrderFacade {
                 for (CartItem r : reserved) {
                     inventory.releaseStock(r.getProductId(), r.getQuantity());
                 }
-                return;
+                return null;
             }
 
             reserved.add(item);
@@ -34,7 +45,7 @@ public class OrderFacade {
             for (CartItem item : reserved) {
                 inventory.releaseStock(item.getProductId(), item.getQuantity());
             }
-            return;
+            return null;
         }
 
         if (!shipping.shipOrder(customer.getAddress())) {
@@ -44,8 +55,37 @@ public class OrderFacade {
                 inventory.releaseStock(item.getProductId(), item.getQuantity());
             }
 
-            return;
+            return null;
         }
         notification.sendConfirmation();
+
+        currentOrderId = "ORD" + nextId++;
+        savedCart = new ArrayList<>(cartItems);
+        savedCustomer = customer;
+        savedTotal = total;
+
+        System.out.println("Order ID: " + currentOrderId);
+        return currentOrderId;
+    }
+
+    public boolean cancelOrder(String orderId) {
+        if (currentOrderId == null || !currentOrderId.equals(orderId)) {
+            System.out.println("Order not found!");
+            return false;
+        }
+
+        shipping.cancelShipment();
+        payment.refundPayment(savedTotal);
+
+        for (CartItem item : savedCart) {
+            inventory.releaseStock(item.getProductId(), item.getQuantity());
+        }
+
+        notification.sendCancellation(savedCustomer.getEmail());
+
+        currentOrderId = null;
+
+        System.out.println("Order cancelled!");
+        return true;
     }
 }
