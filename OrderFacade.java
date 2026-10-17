@@ -37,7 +37,15 @@ public class OrderFacade {
             return;
         }
 
-        shipping.shipOrder();
+        if (!shipping.shipOrder(customer.getAddress())) {
+            payment.refundPayment(total);
+
+            for (CartItem item : reserved) {
+                inventory.releaseStock(item.getProductId(), item.getQuantity());
+            }
+
+            return;
+        }
         notification.sendConfirmation();
     }
 }

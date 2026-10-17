@@ -1,5 +1,10 @@
 public class ShippingService {
-    public void shipOrder() {
-        System.out.println("Order shipped");
+    public boolean shipOrder(String address) {
+        if ("Astana".equalsIgnoreCase(address)) {
+            System.out.println("Order shipped to " + address);
+            return true;
+        }
+        System.out.println("Shipping failed");
+        return false;
     }
 }

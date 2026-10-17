@@ -1,5 +1,5 @@
 public class PaymentProcessor {
-    private double balance = 4000;
+    private double balance = 5000;
 
     public boolean processPayment(double amount) {
         if (amount > balance || amount <= 0) {
@@ -10,5 +10,10 @@ public class PaymentProcessor {
         balance -= amount;
         System.out.println("Payment successful: " + amount);
         return true;
+    }
+
+    public void refundPayment(double amount) {
+        balance += amount;
+        System.out.println("Payment refunded: " + amount);
     }
 }
