@@ -14,6 +14,18 @@ public class OrderFacade {
     private int nextId = 1;
 
     public String placeOrder(List<CartItem> cartItems, Customer customer) {
+        if (cartItems == null || cartItems.isEmpty() || customer == null) {
+            System.out.println("Invalid order");
+            return null;
+        }
+
+        for (CartItem cartItem : cartItems) {
+            if (cartItem == null || cartItem.getQuantity() <= 0 || cartItem.getPrice() <= 0) {
+                System.out.println("Invalid item");
+                return null;
+            }
+        }
+
         if (currentOrderId != null) {
             System.out.println("An active order already exists!");
             return null;

@@ -7,7 +7,7 @@ public class Main {
 
         Customer customer = new Customer("C001", "john@gmail.com", "Astana");
 
-        List<CartItem> cartItems = List.of(new CartItem("MacBook", 1, 2700), new CartItem("Lenovo Loq", 2, 600));
+        List<CartItem> cartItems = List.of(new CartItem("MacBook", 1, 2700), new CartItem("Lenovo Loq", 1, 600));
 
         String orderId = facade.placeOrder(cartItems, customer);
 
