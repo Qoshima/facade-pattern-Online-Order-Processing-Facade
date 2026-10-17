@@ -38,31 +38,31 @@ Run tests with assertions enabled:
 `java -ea FacadeTest`
 
 ## Clean Code Principles
-1. Meaningful Names
+1. #### Meaningful Names
     ```java
     placeOrder(cartItems, customer);
     cancelOrder(orderId);
     ```
     Method names clearly describe their purpose.
-1. Single Responsibility Principle
+1. #### Single Responsibility Principle
     ```java
     inventory.reserveStock(productId, quantity);
     payment.processPayment(total);
     ```
     Each subsystem has one responsibility. The Facade coordinates operations without implementing their internal logic.
-1. Encapsulation
+1. #### Encapsulation
     ```java
     private InventoryService inventory = new InventoryService();
     ```
     Subsystem references are private. The client does not access them through the Facade.
-1. Small and Focused Methods.
+1. #### Small and Focused Methods.
     ```java
     public void refundPayment(double amount) {
         balance += amount;
     }
     ```
     Each method performs a specific task, making the code easier to understand and maintain.
-1. Proper Error Handling
+1. #### Proper Error Handling
     ```java
     if (!payment.processPayment(total)) {
         for (CartItem cartItem : reserved) {
